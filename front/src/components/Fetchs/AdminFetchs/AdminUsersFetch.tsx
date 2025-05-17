@@ -31,7 +31,11 @@ export const fetchApplications = async (application: IApplication) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "Error desconocido");
+    throw {
+      message: errorData.message,
+      status: errorData.statusCode,
+      code: errorData.error,
+    };
   }
 
   const data = await response.json();

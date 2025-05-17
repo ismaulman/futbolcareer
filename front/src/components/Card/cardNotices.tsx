@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { INotice } from "@/Interfaces/INews";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CardNews: React.FC<{ notice: INotice }> = ({ notice }) => {
   const [loading, setLoading] = useState(false);
 
   const handleReadMoreClick = () => {
     setLoading(true);
-  
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      AOS.init();
+    }
+  }, []);
+
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary hover:cursor-pointer">
+    <div
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary hover:cursor-pointer"
+    >
       {/* Imagen destacada */}
       <Image
         src={notice.imageUrl}
@@ -24,22 +35,20 @@ const CardNews: React.FC<{ notice: INotice }> = ({ notice }) => {
 
       {/* Contenido de la noticia */}
       <div className="p-6">
-      <Link
-            href={`/News/${notice.id}`}
-            className="text-verde-oscuro hover:text-green-700 font-semibold text-sm"
-            onClick={handleReadMoreClick} 
-          >
-        <h3 className="font-semibold text-gray-800 mb-2">{notice.title}</h3>
+        <Link
+          href={`/News/${notice.id}`}
+          className="text-verde-oscuro hover:text-green-700 font-semibold text-sm"
+          onClick={handleReadMoreClick}
+        >
+          <h3 className="font-semibold text-gray-800 mb-2">{notice.title}</h3>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-16">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-700"></div>
-          </div>
-        ) : (
-         <div>
-            Leer más
+          {loading ? (
+            <div className="flex justify-center items-center h-16">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-700"></div>
             </div>
-        )}
+          ) : (
+            <div>Leer más</div>
+          )}
         </Link>
       </div>
     </div>

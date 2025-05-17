@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const helpData: IHelp[] = [
   {
@@ -156,6 +158,12 @@ const HelpPage = () => {
   const [activeSection, setActiveSection] = useState<IHelp | null>(null);
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      AOS.init();
+    }
+  }, []);
+
   function handleButton(data: IHelp) {
     if (activeSection?.section && activeSection === data) {
       setActiveSection(null);
@@ -169,7 +177,11 @@ const HelpPage = () => {
       <h1 className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white text-[1.8rem] p-2 font-semibold text-center">
         Preguntas Frecuentes (FAQs) - FutboLink
       </h1>
-      <div className="relative section mx-auto w-full  lg:w-4/6 p-6 mt-8 bg-white rounded-xl shadow-xl border border-gray-200">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        className="relative section mx-auto w-full  lg:w-4/6 p-6 mt-8 bg-white rounded-xl shadow-xl border border-gray-200"
+      >
         <div className="grid grid-cols-2 gap-4 items-center md:grid-cols-2">
           {helpData.map((section) => (
             <div

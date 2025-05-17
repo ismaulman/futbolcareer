@@ -9,13 +9,13 @@ const CardJobsId: React.FC<{ offer: IOfferCard }> = ({ offer }) => {
       {/* Contenedor de la imagen y el contenido */}
       <div className="flex flex-col sm:flex-row items-center p-4 sm:p-6 space-y-4 sm:space-y-0 sm:space-x-4">
         {/* Imagen de la oferta */}
-        <div className="w-28 h-28 sm:w-20 sm:h-20 flex-shrink-0 rounded-lg overflow-hidden">
+        <div className="w-28 h-28  sm:w-20 sm:h-20 flex-shrink-0 rounded-lg overflow-hidden">
           <Image
             width={80}
             height={80}
             src={offer.imgUrl || "/cursosYFormaciones.JPG"}
             alt={offer.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
 

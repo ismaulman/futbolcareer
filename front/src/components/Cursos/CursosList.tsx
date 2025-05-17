@@ -6,6 +6,10 @@ import { getCursos } from "@/components/Fetchs/AdminFetchs/AdminUsersFetch";
 import Link from "next/link";
 import CursoCard from "./CursoCard";
 import { useRouter } from "next/navigation";
+import { contact } from "../Fetchs/UsersFetchs/UserFetchs";
+import { NotificationsForms } from "../Notifications/NotificationsForms";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CursosList = () => {
   const [cursos, setCursos] = useState<ICurso[]>([]);
@@ -18,6 +22,12 @@ const CursosList = () => {
   const [error, setError] = useState<string>("");
   const router = useRouter();
 
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+
   // Opciones de idiomas
   const languages = ["Español", "Ingles", "Italiano"];
 
@@ -25,6 +35,9 @@ const CursosList = () => {
   const modalitys = ["Presencial", "Online", "Presencial + Online"];
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      AOS.init();
+    }
     const fetchCursos = async () => {
       try {
         const cursosData = await getCursos();
@@ -84,11 +97,113 @@ const CursosList = () => {
     }, 2000);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!email || !name || !mensaje) {
+      setNotificationMessage("⚠️ Por favor, completa todos los campos.");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+      return;
+    }
+
+    setLoading(true);
+
+    const { success } = await contact(email, name, mensaje);
+
+    setLoading(false);
+
+    if (success) {
+      setNotificationMessage("✅ Se ha enviado tu mensaje.");
+      setEmail("");
+      setName("");
+      setMensaje("");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+    } else {
+      setNotificationMessage("❌ Ocurrió un error al enviar el mensaje.");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+    }
+  };
+
   return (
     <div className="min-h-[80vh] mt-12 p-4 pt-[4rem] bg-gray-100 sm:p-6 sm:pt-[4rem] lg:p-12 lg:pb-16">
-      <h1 className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white text-[1.8rem] p-2 font-semibold text-center mb-4">
+      <h1 className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white text-[1.8rem] p-2 font-semibold text-center ">
         CURSOS Y FORMACIONES
       </h1>
+      {/* Formulario de contacto compacto */}
+      <div className="rounded-b-md bg-white border-x border-b border-green-400 px-4 py-3 mb-4 flex flex-col md:px-6 lg:flex-row gap-3 items-center justify-between">
+        <p className="text-center md:text-start text-green-700 font-medium">
+          ¿Estás interesado en alguno de nuestros cursos?
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col md:flex-row gap-2 w-full md:w-auto"
+        >
+          <input
+            aria-label="Nombre"
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nombre *"
+            className="w-full text-gray-700 md:w-36 h-9 px-3 py-1 border border-green-200 rounded focus:outline-none focus:ring-1 focus:ring-green-400"
+          />
+          <input
+            aria-label="Correo electrónico"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Correo electrónico *"
+            className="w-full text-gray-700 md:w-48 h-9 px-3 py-1 border border-green-200 rounded focus:outline-none focus:ring-1 focus:ring-green-400"
+          />
+          <input
+            aria-label="Mensaje"
+            id="message"
+            type="text"
+            value={mensaje}
+            onChange={(e) => setMensaje(e.target.value)}
+            placeholder="Mensaje *"
+            className="w-full text-gray-700 md:w-48 h-9 px-3 py-1 border border-green-200 rounded focus:outline-none focus:ring-1 focus:ring-green-400"
+          />
+          <button
+            type="submit"
+            className="h-9 px-4 bg-green-500 hover:bg-green-600 text-white rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
+      {/* Notificación */}
+      {showNotification && (
+        <div className="absolute top-12 left-0 right-0 mx-auto w-max z-50">
+          <NotificationsForms message={notificationMessage} />
+        </div>
+      )}
+      {/* <div className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 p-4">
+        <h1 className="text-white text-[1.8rem] p-2 font-semibold text-center mb-4">
+          CURSOS Y FORMACIONES
+        </h1>
+        <p className="text-center text-white/90 max-w-2xl mx-auto">
+          Descubre nuestra selección de cursos especializados para profesionales
+          del fútbol.{" "}
+          <Link
+            href="/Contact"
+            className="underline font-medium hover:text-white"
+          >
+            ¿Tienes dudas? Contáctanos
+          </Link>
+        </p>
+      </div> */}
 
       <div className="flex flex-col gap-4 justify-between w-full py-[1.5rem] max-w-[100rem] mx-auto md:flex-row">
         {/* Filtros */}
@@ -136,7 +251,11 @@ const CursosList = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 max-w-[100rem] mx-auto sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        className="grid grid-cols-1 max-w-[100rem] mx-auto sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
+      >
         {filteredCursos.length ? (
           filteredCursos.map((curso, index) => (
             <CursoCard

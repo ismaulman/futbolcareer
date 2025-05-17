@@ -30,8 +30,14 @@ const CardProfile: React.FC<CardProfileProps> = ({ profile }) => {
         <div className="mb-8 flex flex-col items-center space-y-4">
           <Image
             src={
-              profile?.imgUrl ||
-              "https://res.cloudinary.com/dagcofbhm/image/upload/v1740486272/Captura_de_pantalla_2025-02-25_092301_sg5xim.png"
+              profile
+                ? profile.imgUrl ||
+                  (profile.genre === "Masculino"
+                    ? "https://res.cloudinary.com/dagcofbhm/image/upload/v1740486272/Captura_de_pantalla_2025-02-25_092301_sg5xim.png"
+                    : profile.genre === "Femenino"
+                    ? "https://res.cloudinary.com/dagcofbhm/image/upload/v1740487974/Captura_de_pantalla_2025-02-25_095231_yf60vs.png"
+                    : "https://res.cloudinary.com/dagcofbhm/image/upload/v1740488144/Captura_de_pantalla_2025-02-25_095529_gxe0gx.png")
+                : "https://res.cloudinary.com/dagcofbhm/image/upload/v1740486272/Captura_de_pantalla_2025-02-25_092301_sg5xim.png"
             }
             alt={profile?.name || "Foto de perfil"}
             width={100}
@@ -201,20 +207,23 @@ const CardProfile: React.FC<CardProfileProps> = ({ profile }) => {
                 className="rounded-full mb-4 md:mb-0"
               />
               <div className="ml-4">
-              
-                   <h2 className="text-xl font-semibold text-[#1d5126]">Datos Generales</h2>
-                  <div className="text-gray-700">
+                <h2 className="text-xl font-semibold text-[#1d5126]">
+                  Datos Generales
+                </h2>
+                <div className="text-gray-700">
                   <p className="border border-[#1d5126] bg-[#f5f5f5] p-2 mb-2 rounded-md">
-                    <strong>Posición principal:</strong> {profile.primaryPosition}
+                    <strong>Posición principal:</strong>{" "}
+                    {profile.primaryPosition}
                   </p>
                   <p className="border border-[#1d5126] bg-[#f5f5f5] p-2 mb-2 rounded-md">
-                    <strong>Puesto secundario:</strong> {profile.secondaryPosition}
+                    <strong>Puesto secundario:</strong>{" "}
+                    {profile.secondaryPosition}
                   </p>
-                   <p className="border border-[#1d5126] bg-[#f5f5f5] p-2 mb-2 rounded-md">
+                  <p className="border border-[#1d5126] bg-[#f5f5f5] p-2 mb-2 rounded-md">
                     <strong>Pasaporte UE:</strong> {profile.pasaporteUe}
-                  </p> 
-                  </div>
-                   <h2 className="text-xl font-semibold text-[#1d5126]">
+                  </p>
+                </div>
+                <h2 className="text-xl font-semibold text-[#1d5126]">
                   Datos Físicos
                 </h2>
                 <div className="text-gray-700">

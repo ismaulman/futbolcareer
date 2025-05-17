@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IOfferCard } from "@/Interfaces/IOffer";
 import Image from "next/image";
 import Link from "next/link";
 import Notification from "./Notification";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CardOffer: React.FC<{
   offer: IOfferCard;
@@ -13,9 +15,18 @@ const CardOffer: React.FC<{
   const handleCloseNotification = () => {
     setShowNotification(false); // Cerrar la notificación
   };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      AOS.init();
+    }
+  }, []);
 
   return (
-    <div className="flex flex-col h-full bg-white border border-gray-200 rounded-lg w-full min-h-[450px] shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary">
+    <div
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      className="flex flex-col h-full bg-white border border-gray-200 rounded-lg w-full min-h-[450px] shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary"
+    >
       {/* Sección 1: Encabezado */}
       <div className="flex items-center p-4 border-b border-gray-200 flex-1">
         <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden mr-4">

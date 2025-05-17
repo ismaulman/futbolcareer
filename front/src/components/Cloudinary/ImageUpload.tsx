@@ -52,7 +52,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className="flex flex-col items-center mb-4">
       <input
         type="file"
         accept="image/*"

@@ -52,8 +52,11 @@ function NavbarRoles() {
     else if (role === "ADMIN") targetPath = "/PanelAdmin";
 
     return (
-      <button onClick={() => navigateTo(targetPath)}>
-        <FaUser className="text-verde-oscuro hover:text-verde-mas-claro hover:scale-110" />
+      <button
+        className="w-[1.5rem] h-[1.5rem]"
+        onClick={() => navigateTo(targetPath)}
+      >
+        <FaUser className=" w-full h-full text-verde-oscuro hover:text-verde-mas-claro hover:scale-110" />
       </button>
     );
   };
@@ -70,63 +73,61 @@ function NavbarRoles() {
       </Head>
 
       <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-  <section className="flex items-center justify-between py-2 px-4">
-    {/* Logo + Menú escritorio */}
-    <div className="flex items-center gap-6">
-      <Link href={"/"}>
-        <Image
-          src="/logoD.png"
-          height={60}
-          width={60}
-          alt="FutboLink logo"
-          className="rounded-2xl"
-        />
-      </Link>
+        <section className="flex items-center justify-between py-2 px-4">
+          {/* Logo + Menú escritorio */}
+          <div className="flex items-center gap-6">
+            <Link href={"/"}>
+              <Image
+                src="/logoD.png"
+                height={60}
+                width={60}
+                alt="FutboLink logo"
+                className="rounded-2xl"
+              />
+            </Link>
 
-      <ul className="hidden sm:flex gap-6 text-lg text-verde-oscuro">
-        {menuItems.map((item) => (
-          <li
-            key={item.path}
-            onClick={() => navigateTo(item.path)}
-            className="px-4 py-2 hover:bg-verde-oscuro hover:text-white rounded-md transition-all cursor-pointer"
-          >
-            {item.label}
-          </li>
-        ))}
-      </ul>
-    </div>
+            <ul className="hidden lg:flex gap-6 text-lg text-verde-oscuro">
+              {menuItems.map((item) => (
+                <li
+                  key={item.path}
+                  onClick={() => navigateTo(item.path)}
+                  className="px-4 py-2 hover:bg-verde-oscuro hover:text-white rounded-md transition-all cursor-pointer"
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-    {/* Botones de sesión alineados a la derecha */}
-    <div className="hidden sm:flex ml-auto items-center gap-4">
-      {!isLogged && (
-        <>
-          <Link href={"/Login"}>
-            <button
-              onClick={() => setIsDropdownOpen(false)}
-              className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600"
-            >
-              Iniciar sesión
-            </button>
-          </Link>
-          <button
-            onClick={() => navigateTo("/OptionUsers")}
-            className="px-4 py-2 bg-white text-verde-oscuro rounded-md mt-2 hover:bg-gray-200"
-          >
-            Registrarse
-          </button>
-        </>
-      )}
-    </div>
-
-
-
-   
+          {/* Botones de sesión alineados a la derecha */}
+          <div className="hidden lg:flex ml-auto items-center gap-4">
+            {!isLogged && (
+              <>
+                <Link href={"/Login"}>
+                  <button
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-600"
+                  >
+                    Iniciar sesión
+                  </button>
+                </Link>
+                <button
+                  onClick={() => navigateTo("/OptionUsers")}
+                  className="px-4 py-2 bg-white text-verde-oscuro rounded-md mt-2 hover:bg-gray-200"
+                >
+                  Registrarse
+                </button>
+              </>
+            )}
+          </div>
 
           {/* Icono de usuario en escritorio */}
-          <div className="hidden sm:flex items-center gap-4">{renderUserIcon()}</div>
+          <div className="hidden lg:flex items-center gap-4">
+            {renderUserIcon()}
+          </div>
 
           {/* Menú móvil: hamburguesa + ícono de usuario */}
-          <div className="flex items-center gap-4 sm:hidden">
+          <div className="flex items-center gap-4 lg:hidden">
             {renderUserIcon()}
             <button
               onClick={toggleMobileMenu}
@@ -151,45 +152,43 @@ function NavbarRoles() {
           </div>
         </section>
 
-       
-{/* Menú móvil: mostrar los botones de sesión solo cuando el menú móvil está abierto */}
-{isMobileMenuOpen && (
-  <div className="sm:hidden bg-white text-verde-oscuro text-lg p-4">
-    <ul>
-      {menuItems.map((item) => (
-        <li
-          key={item.path}
-          onClick={() => navigateTo(item.path)}
-          className="px-4 py-2 hover:bg-verde-oscuro hover:text-white rounded-md transition-all cursor-pointer"
-        >
-          {item.label}
-        </li>
-      ))}
-    </ul>
+        {/* Menú móvil: mostrar los botones de sesión solo cuando el menú móvil está abierto */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-white text-verde-oscuro text-lg p-4">
+            <ul>
+              {menuItems.map((item) => (
+                <li
+                  key={item.path}
+                  onClick={() => navigateTo(item.path)}
+                  className="px-4 py-2 hover:bg-verde-oscuro hover:text-white rounded-md transition-all cursor-pointer"
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
 
-    <div className="mt-4">
-      {!isLogged && (
-        <>
-          <Link href={"/Login"}>
-            <button
-              onClick={() => setIsDropdownOpen(false)}
-              className="w-full bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
-            >
-              Iniciar sesión
-            </button>
-          </Link>
-          <button
-            onClick={() => navigateTo("/OptionUsers")}
-            className="w-full bg-white text-verde-oscuro px-4 py-2 rounded-md mt-2 hover:bg-gray-200"
-          >
-            Registrarse
-          </button>
-        </>
-      )}
-    </div>
-  </div>
-)}
-        
+            <div className="mt-4">
+              {!isLogged && (
+                <>
+                  <Link href={"/Login"}>
+                    <button
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600"
+                    >
+                      Iniciar sesión
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => navigateTo("/OptionUsers")}
+                    className="w-full bg-white text-verde-oscuro px-4 py-2 rounded-md mt-2 hover:bg-gray-200"
+                  >
+                    Registrarse
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </nav>
     </>
   );
